@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "My first template"
+Parameters: 
+ Versioning: 
+  Type: String
+  AllowedValues:
+    - Enabled
+    - Susupended 
+ Name: 
+  Type: String
+  Default: aiperi-mairambekova
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref Name
+      VersioningConfiguration:
+       Status: !Ref Versioning
+  SecretManager:     
+    Type: 'AWS::SecretsManager::Secret'
+    DeletionPolicy: Retain
+    Properties:
+      Name: !Ref Name 
+      Description: "This is aiperi mairambekova's secrets manager" 
+      SecretString: '{"name":"aiperi","password":"banana"}'
+Outputs: 
+  S3Bucketname:
+   Description: My bucket name 
+   Value: !Ref Name
+  SecretManager:
+   Description: My secrets manager name 
+   Value: !Ref Name
